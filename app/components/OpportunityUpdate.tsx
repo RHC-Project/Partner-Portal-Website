@@ -379,8 +379,10 @@ export default function OpportunityUpdate() {
     try {
       const payload = {
         username: localStorage.getItem("valid_user_email") || "",
+        partnerName: localStorage.getItem("company") || "",
         companyName: updateModalOpportunity.companyName,
         opportunityName: updateModalOpportunity.opportunity,
+        salesRep: updateModalOpportunity.salesPartner,
         updateTitle: updateForm.updateTitle,
         update: updateForm.update,
       };
@@ -510,7 +512,7 @@ export default function OpportunityUpdate() {
                     <button
                       type="button"
                       onClick={() => setUpdateModalOpportunity(m)}
-                      className="shrink-0 px-3 py-1.5 bg-[#141464] text-white text-sm rounded-md hover:opacity-90 cursor-pointer"
+                      className="shrink-0 px-3 py-1.5 bg-[#3333ff] text-white text-sm rounded-md hover:opacity-90 cursor-pointer"
                     >
                       Add Update
                     </button>
