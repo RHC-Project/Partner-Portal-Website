@@ -148,7 +148,6 @@ const getAuthHeaders = () => {
   return headers;
 };
 
-
 export default function OpportunityUpdate() {
   const [updates, setUpdates] = useState<OpportunityUpdateRow[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -160,7 +159,11 @@ export default function OpportunityUpdate() {
   const [sortConfig, setSortConfig] = useState<{
     key: string;
     direction: "asc" | "desc";
-  } | null>(null);
+  }>({
+    key: "touchpointDate",
+    direction: "desc",
+  });
+
   const [selectedUpdate, setSelectedUpdate] =
     useState<OpportunityUpdateRow | null>(null);
   const [detailItems, setDetailItems] = useState<OpportunityDetail[]>([]);
@@ -246,54 +249,53 @@ export default function OpportunityUpdate() {
     return isNaN(date.getTime()) ? null : date;
   };
 
-  useEffect(() => {
-    const fetchOpportunityUpdates = async () => {
-      try {
-        const response = await axios.get(listApiUrl, {
-          headers: getAuthHeaders(),
-        });
+  const fetchOpportunityUpdates = async () => {
+    try {
+      const response = await axios.get(listApiUrl, {
+        headers: getAuthHeaders(),
+      });
 
-        const data = response.data;
-        const company = localStorage.getItem("company")?.toLowerCase();
+      const data = response.data;
+      const company = localStorage.getItem("company")?.toLowerCase();
 
-        if (!Array.isArray(data)) {
-          setUpdates([]);
-        } else {
-          const filteredData = company
-            ? data.filter((member: any) =>
-                (member.REFERRAL_PARTNER || member.COMPANY || "")
-                  .toLowerCase()
-                  .includes(company),
-              )
-            : data;
+      if (!Array.isArray(data)) {
+        setUpdates([]);
+      } else {
+        const filteredData = company
+          ? data.filter((member: any) =>
+              (member.REFERRAL_PARTNER || member.COMPANY || "")
+                .toLowerCase()
+                .includes(company),
+            )
+          : data;
 
-          const sortedData = filteredData.sort((a: any, b: any) =>
-            (a.COMPANY || "").localeCompare(b.COMPANY || ""),
-          );
+        // const sortedData = filteredData.sort((a: any, b: any) =>
+        //   (a.COMPANY || "").localeCompare(b.COMPANY || ""),
+        // );
 
-          const transformed = sortedData.map((member: any) => ({
-            entityId: getOpportunityEntityId(member),
-            companyName: member.COMPANY || member.company_name || "",
-            opportunity: member.OPPORTUNITY || member.opportunity || "",
-            salesPartner:
-              member.SALES_REPRESENTATIVE || member.sales_partner || "",
-            touchpointDate:
-              member.TOUCHPOINT_DATE || member.touchpoint_date || "",
-            touchpointType:
-              member.TOUCHPOINT_TYPE || member.touchpoint_type || "",
-            touchpointTitle:
-              member.TOUCHPOINT_SUBJECT || member.touchpoint_title || "",
-          }));
+        const transformed = filteredData.map((member: any) => ({
+          entityId: getOpportunityEntityId(member),
+          companyName: member.COMPANY || member.company_name || "",
+          opportunity: member.OPPORTUNITY || member.opportunity || "",
+          salesPartner:
+            member.SALES_REPRESENTATIVE || member.sales_partner || "",
+          touchpointDate:
+            member.TOUCHPOINT_DATE || member.touchpoint_date || "",
+          touchpointType:
+            member.TOUCHPOINT_TYPE || member.touchpoint_type || "",
+          touchpointTitle:
+            member.TOUCHPOINT_SUBJECT || member.touchpoint_title || "",
+        }));
 
-          setUpdates(transformed);
-        }
-      } catch (error) {
-        console.error("Error fetching opportunity updates:", error);
-      } finally {
-        setLoading(false);
+        setUpdates(transformed);
       }
-    };
-
+    } catch (error) {
+      console.error("Error fetching opportunity updates:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchOpportunityUpdates();
   }, []);
 
@@ -393,7 +395,13 @@ export default function OpportunityUpdate() {
       );
 
       if (response.data?.success) {
+        setUpdateSubmitting(false);
+
         setUpdateSubmitSuccess("Opportunity update submitted successfully.");
+
+        setCurrentPage(1);
+
+        fetchOpportunityUpdates();
 
         setTimeout(() => {
           closeUpdateModal();
@@ -745,7 +753,6 @@ export default function OpportunityUpdate() {
             </div>
 
             <form onSubmit={handleUpdateSubmit} className="p-6 space-y-5">
-
               <div>
                 <label className="block text-sm font-semibold text-[#141464] mb-2">
                   Update Title
