@@ -81,43 +81,57 @@ export default function Library() {
       process.env.NEXT_PUBLIC_API_URL || "",
       item.embed_data,
     );
+
     const ext = getFileExtension(item.embed_data);
 
     if (ext === "pdf") {
-      return { url: `${baseUrl}#page=1&view=FitH`, type: "pdf" as const };
+      return {
+        url: `${baseUrl}#page=1&view=FitH`,
+        type: "pdf" as const,
+      };
     }
 
-    return { url: baseUrl, type: "unsupported" as const };
+    if (ext === "mp4" || ext === "webm" || ext === "ogg") {
+      return {
+        url: baseUrl,
+        type: "video" as const,
+      };
+    }
+
+    return {
+      url: baseUrl,
+      type: "unsupported" as const,
+    };
   }
 
-const openDocument = async (documentId: number) => {
-  try {
-    const token = localStorage.getItem("token_partner");
-    const userEmail = localStorage.getItem("valid_user_email");
-    const company = localStorage.getItem("company");
+  const openDocument = async (documentId: number) => {
+    try {
+      const token = localStorage.getItem("token_partner");
+      const userEmail = localStorage.getItem("valid_user_email");
+      const company = localStorage.getItem("company");
 
-    if (!token || !userEmail) {
-      window.location.href = "/login";
-      return;
-    }
-
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}wp-json/custom/v1/document-url?id=${documentId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          authemail: `Bearer ${userEmail}`,
-          company: company || "",
-        },
+      if (!token || !userEmail) {
+        window.location.href = "/login";
+        return;
       }
-    );
 
-    window.open(response.data.url, "_blank");
-  } catch (error) {
-    console.error("Unable to open document", error);
-    alert("Unable to open document.");
-  }
-};
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}wp-json/custom/v1/document-url?id=${documentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            authemail: `Bearer ${userEmail}`,
+            company: company || "",
+          },
+        },
+      );
+
+      window.open(response.data.url, "_blank");
+    } catch (error) {
+      console.error("Unable to open document", error);
+      alert("Unable to open document.");
+    }
+  };
 
   return (
     <div className="sm:p-4">
@@ -166,11 +180,23 @@ const openDocument = async (documentId: number) => {
                     className="w-full h-full"
                   />
                 )}
+
+                {embedType === "video" && (
+                  <video
+                    src={embedUrl}
+                    className="w-full h-full object-contain pointer-events-none bg-black"
+                    muted
+                    playsInline
+                    preload="metadata"
+                  />
+                )}
+
                 {embedType === "unsupported" && (
                   <div className="flex flex-col items-center justify-center text-center p-4">
                     <span className="text-sm text-gray-500">
                       Preview not available
                     </span>
+
                     <span className="text-xs text-gray-400 mt-1">
                       Click to open file
                     </span>
