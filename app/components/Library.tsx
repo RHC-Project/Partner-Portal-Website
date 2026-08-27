@@ -184,6 +184,7 @@ export default function Library() {
                 {embedType === "video" && (
                   <video
                     src={embedUrl}
+                    poster="https://www.relayhumancloud.com/wp-content/uploads/2026/08/video-thumbnail.png"
                     className="w-full h-full object-contain pointer-events-none bg-black"
                     muted
                     playsInline
