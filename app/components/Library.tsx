@@ -98,6 +98,13 @@ export default function Library() {
       };
     }
 
+    if (ext === "pptx") {
+      return {
+        url: baseUrl,
+        type: "pptx" as const,
+      };
+    }
+
     return {
       url: baseUrl,
       type: "unsupported" as const,
@@ -189,6 +196,14 @@ export default function Library() {
                     muted
                     playsInline
                     preload="metadata"
+                  />
+                )}
+
+                {embedType === "pptx" && (
+                  <img
+                    src="https://www.relayhumancloud.com/wp-content/uploads/2026/08/video-thumbnail.png"
+                    alt="PowerPoint presentation"
+                    className="w-full h-full object-cover"
                   />
                 )}
 
