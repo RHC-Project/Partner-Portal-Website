@@ -117,15 +117,15 @@ export default function LoginPage() {
       <img
         src={`${process.env.NEXT_PUBLIC_API_URL}wp-content/uploads/2025/08/Group-4.png`}
         alt="Decorative top left"
-        className="absolute top-0 left-0 w-[30%] sm:h-[50%] h-[30%] pointer-events-none"
+        className="absolute top-0 left-0 w-[30%] sm:h-[30%] h-[30%] pointer-events-none"
       />
       <img
         src={`${process.env.NEXT_PUBLIC_API_URL}wp-content/uploads/2025/08/logo-relayback.png`}
         alt="Decorative bottom right"
         className="
           absolute bottom-0 right-0
-          w-[50%] h-[90%]
-          sm:w-[50%] sm:h-[90%]
+          w-[70%] h-[90%]
+          sm:w-[55%] sm:h-[90%]
           max-sm:w-full max-sm:h-[55%]
           pointer-events-none
         "

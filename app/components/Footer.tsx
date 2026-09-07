@@ -30,7 +30,7 @@ export default function Footer() {
             <h3 className="font-semibold text-[#b6bef1] text-left">Available Talent</h3>
 
             {/* Icons shown only on mobile */}
-            <span className="footer-accordion-icon md:hidden">
+            <span className="footer-accordion-icon">
               {openSection === 1 ? <FaMinus /> : <FaPlus />}
             </span>
           </button>

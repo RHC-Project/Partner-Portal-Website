@@ -103,7 +103,11 @@
 
 @media (max-width: 900px) {
   .footer-section {
-    @apply mb-6 mx-6;
+    @apply mb-6 mx-6 grid-cols-1;
+  }
+
+  .footer-accordion-icon {
+    display: block; 
   }
 
   .tnc-desktop {
