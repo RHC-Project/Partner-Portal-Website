@@ -194,7 +194,7 @@ export default function Footer() {
             />
             <Link href={`${VITE_WEB_URL}/schedule-a-call`}>
               <button className="bg-[#3333ff] cursor-pointer px-4 py-2 rounded-full text-sm font-medium hover:bg-[#5248d6] transition">
-                Schedule a Call
+                Book a 20-Minute Intro
               </button>
             </Link>
           </div>
@@ -242,7 +242,7 @@ export default function Footer() {
             <div className="footer-mobile-cta">
               <Link href={`${VITE_WEB_URL}/schedule-a-call`} onClick={handleFooterNavigate}>
                 <button className="footer-cta-btn">
-                  Schedule a Call
+                  Book a 20-Minute Intro
                 </button>
               </Link>
             </div>
