@@ -208,15 +208,11 @@ export default function Library() {
                 )}
 
                 {embedType === "unsupported" && (
-                  <div className="flex flex-col items-center justify-center text-center p-4">
-                    <span className="text-sm text-gray-500">
-                      Preview not available
-                    </span>
-
-                    <span className="text-xs text-gray-400 mt-1">
-                      Click to open file
-                    </span>
-                  </div>
+                    <img
+                      src="https://www.relayhumancloud.com/wp-content/uploads/2026/08/video-thumbnail.png"
+                      alt="PowerPoint presentation"
+                      className="w-full h-full object-cover bg-black"
+                    />
                 )}
               </div>
               <div className="sm:p-4 p-1">
